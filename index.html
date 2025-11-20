@@ -78,10 +78,10 @@ body.light nav a{color:#334155}
   <div class="container">  
     <header>  
       <div class="brand">  
-        <div class="logo">SF</div>  
+        <div class="logo">SH</div>  
         <div>  
           <h2>Hosting Store</h2>  
-          <div class="Swiper Fvcker">Swiper · Fvcker · Store</div>  
+          <div class="Swiper Hosting">Swiper · Hosting</div>  
         </div>  
       </div>  <nav>  
     <a href="#hosting-samp">Hosting SAMP</a>  
@@ -103,7 +103,7 @@ body.light nav a{color:#334155}
 <!-- HERO -->  
 <div class="hero card fade-in">  
   <div>  
-    <h1>Swiper Fvcker Hosting Cloud☄</h1>  
+    <h1>Swiper Hosting Cloud☄</h1>  
     <p class="muted">Hosting Samp & Bot, Cepat Untuk Server Atau Bot.</p>  
     <div style="height:12px"></div>  
     <button class="btn" onclick="scrollToSection('hosting-samp')">Lihat Hosting SAMP</button>  
@@ -185,7 +185,7 @@ body.light nav a{color:#334155}
         <button class="btn ghost" onclick="closeLogin()">Close</button>  
       </div>  
       <div style="height:12px"></div>  
-      <div class="muted small">(Admin only)</div>  
+      <div class="muted small">(Demo only — credentials: admin / 123)</div>  
       <div id="adminArea" style="display:none;margin-top:12px"></div>  
     </div>  
   </div>    <script>  
@@ -257,7 +257,7 @@ body.light nav a{color:#334155}
     function checkoutWhatsApp(){ if(cart.length===0) return alert('Cart kosong');  
       const lines = cart.map(c=>`- ${c.name} (${c.cpu}, ${c.ram}, ${c.disk}) : Rp ${numberWithDots(c.price)}`);  
       const total = cart.reduce((s,i)=>s+i.price,0);  
-      const msg = encodeURIComponent( lines.join('\\n') `Halo Bang Mau Beli Hosting` );  
+      const msg = encodeURIComponent( lines.join('\\n') + `\\nTotal: Rp ${numberWithDots(total)}\\nNama: \\nEmail: \\nNotes:` );  
       const wa = `https://wa.me/6283180985980?text=${msg}`; // <-- GANTI nomor WA di sini (format internasional tanpa +, contoh 6281xxxx)  
       // store order locally  
       orders.push({id:'o'+Date.now(),items:cart,total,created:new Date().toISOString()}); localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));  
@@ -265,12 +265,12 @@ body.light nav a{color:#334155}
       cart=[]; saveCart(); document.getElementById('cartDrawer').style.display='none';  
     }  
   
-    function quickOrder(id,type){ const pool = type==='samp'?SAMP:BOT; const item = pool.find(x=>x.id===id); if(!item) return; const msg = encodeURIComponent(`Halo Bang Mau Beli Hosting`); window.open(`https://wa.me/6283180985980?text=${msg}`,'_blank'); }  
+    function quickOrder(id,type){ const pool = type==='samp'?SAMP:BOT; const item = pool.find(x=>x.id===id); if(!item) return; const msg = encodeURIComponent(`${item.name} (${item.cpu}, ${item.ram}) - Rp ${item.price}\\nNama: \\nEmail: \\nNotes:`); window.open(`https://wa.me/6283180985980?text=${msg}`,'_blank'); }  
   
     // Admin  
     function openLogin(){ document.getElementById('adminModal').style.display='grid'; }  
     function closeLogin(){ document.getElementById('adminModal').style.display='none'; document.getElementById('adminArea').style.display='none'; }  
-    function doLogin(){ const u = document.getElementById('adminUser').value; const p = document.getElementById('adminPass').value; if(u==='admin' && p==password123'){ showAdmin(); } else alert('Invalid credentials'); }  
+    function doLogin(){ const u = document.getElementById('adminUser').value; const p = document.getElementById('adminPass').value; if(u==='admin' && p==='password123'){ showAdmin(); } else alert('Invalid credentials'); }  
     function showAdmin(){ document.getElementById('adminArea').style.display='block'; const a = document.getElementById('adminArea'); a.innerHTML = `<h4>Orders (${orders.length})</h4><div id='ordersList'></div><div style='height:10px'></div><button class='btn' onclick='exportOrders()'>Export Orders</button>`; renderOrders(); }  
     function renderOrders(){ const ol = document.getElementById('ordersList'); ol.innerHTML=''; if(!orders.length) ol.innerHTML='<div class=\"muted\">Belum ada order</div>'; orders.slice().reverse().forEach(o=>{ const n = document.createElement('div'); n.className='card'; n.style.marginTop='8px'; n.innerHTML = `<div style='display:flex;justify-content:space-between;align-items:center'><div><strong>Order ${o.id}</strong><div class='muted small'>${new Date(o.created).toLocaleString()}</div></div><div>Rp ${numberWithDots(o.total)}</div></div><div style='margin-top:6px'>${o.items.map(i=>'<div class=muted small>'+i.name+' - Rp '+numberWithDots(i.price)+'</div>').join('')}</div>`; ol.appendChild(n); }); }  
     function exportOrders(){ const blob = new Blob([JSON.stringify(orders,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='orders.json'; a.click(); }  
@@ -292,4 +292,4 @@ body.light nav a{color:#334155}
     window.HS = {addToCart,cart,orders,renderCart};  
   </script>    <!-- Footer -->    <footer style="max-width:1200px;margin:22px auto;color:var(--muted);text-align:center">© Hosting Store — Prototype. Replace WA number and secure admin before production.</footer>  
 </body>  
-</html>
+    </html>
